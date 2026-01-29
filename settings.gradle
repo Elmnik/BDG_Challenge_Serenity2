@@ -1,0 +1,3 @@
+rootProject.name = 'BDG_Challenge_Serenity'
+include 'api-automation'
+include 'ui-automation'

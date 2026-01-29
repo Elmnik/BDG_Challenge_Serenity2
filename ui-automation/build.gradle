@@ -1,0 +1,4 @@
+dependencies {
+    testImplementation "net.serenity-bdd:serenity-screenplay-webdriver:4.0.15"
+    testImplementation "net.serenity-bdd:serenity-ensure:4.0.15"
+}

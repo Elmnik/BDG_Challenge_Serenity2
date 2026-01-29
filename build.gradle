@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.0.15'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'net.serenity-bdd.serenity-gradle-plugin'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    dependencies {
+        // Serenity Core & Screenplay base
+        testImplementation "net.serenity-bdd:serenity-core:4.0.15"
+        testImplementation "net.serenity-bdd:serenity-cucumber:4.0.15"
+        testImplementation "net.serenity-bdd:serenity-screenplay:4.0.15"
+        
+        // Motor JUnit 5 (Necesario para que Gradle reconozca los tests)
+        testImplementation "net.serenity-bdd:serenity-junit5:4.0.15"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.0"
+        testImplementation "org.junit.platform:junit-platform-suite:1.10.0"
+
+        // Lombok para todos los módulos
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        testCompileOnly 'org.projectlombok:lombok:1.18.30'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    }
+
+    test {
+        useJUnitPlatform() // Indica a Gradle que use JUnit 5
+        testLogging {
+            events "passed", "skipped", "failed"
+            showStandardStreams = true
+        }
+    }
+}

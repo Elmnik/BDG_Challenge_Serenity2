@@ -1,0 +1,8 @@
+dependencies {
+    // Librerías específicas para API que NO están en la raíz
+    testImplementation "net.serenity-bdd:serenity-screenplay-rest:4.0.15"
+    testImplementation "net.serenity-bdd:serenity-rest-assured:4.0.15"
+    
+    // Necesario para procesar JSON a objetos Java
+    testImplementation "com.fasterxml.jackson.core:jackson-databind:2.15.2"
+}
