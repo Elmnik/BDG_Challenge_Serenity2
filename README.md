@@ -1,6 +1,7 @@
-# BDG QA Challenge - (API & UI)
+# Java Serenity BDD Automation Framework
 
-Este proyecto contiene una solución de automatización integral que abarca pruebas de API (ReqRes) y pruebas de Interfaz de Usuario (SauceDemo), utilizando el patrón de diseño **Screenplay** con **Serenity BDD**.
+Este proyecto contiene una solución de automatización que abarca pruebas de API y pruebas de UI,
+utilizando el patrón de diseño **Screenplay** con **Serenity BDD**.
 
 ## 🚀 Tecnologías Utilizadas
 * **Java 17**
@@ -42,13 +43,15 @@ Automatización de flujos web en `https://www.saucedemo.com`.
 ### Ejecutar Pruebas de API & UI
 ```bash
 - JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :api-automation:clean :api-automation:test :api-automation:aggregate
-- JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :api-automation:clean :api-automation:test :api-automation:aggregate -Dcucumber.glue="com.bdg.api.stepdefinitions" --continue 
-- JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :ui-automation:clean :ui-automation:test :ui-automation:aggregate
 - JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :ui-automation:clean :ui-automation:test :ui-automation:aggregate -Dheadless=true
 
 ---
 
 ### Nota Tecnica
-El Proyecto ha sido diseñado y optimizado en primera instancia para equipos macOS con arquitectura Apple Silicon (M Series)
+El Proyecto ha sido diseñado y optimizado en primera instancia para equipos macOS
+con arquitectura Apple Silicon (M Series)
 
-Debido a las particularidades de gestión de memoria y el compilador de Java en estas arquitecturas, se han configurado versiones específicas de dependencias (como Lombok 1.18.30) y rutas de ejecución para garantizar la compatibilidad con el JDK 17+ y evitar conflictos de ClassLoader. Si se ejecuta en otras arquitecturas, asegúrese de tener correctamente configurada la variable de entorno JAVA_HOME
+Debido a las particularidades de gestión de memoria y el compilador de Java en estas arquitecturas,
+se han configurado versiones específicas de dependencias (como Lombok 1.18.30) y rutas de ejecución
+para garantizar la compatibilidad con el JDK 17+ y evitar conflictos de ClassLoader. Si se ejecuta
+en otras arquitecturas, asegúrese de tener correctamente configurada la variable de entorno JAVA_HOME.
