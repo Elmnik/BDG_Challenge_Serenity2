@@ -5,11 +5,10 @@ import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
-import static io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
-
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("features") // Esto busca en src/test/resources/features
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.bdg.ui.stepdefinitions")
+@SelectClasspathResource("features")
+@ConfigurationParameter(key = "cucumber.glue", value = "com.bdg.ui.stepdefinitions")
+@ConfigurationParameter(key = "cucumber.plugin", value = "io.cucumber.core.plugin.SerenityReporterParallel,pretty")
 public class SauceDemoRunner {
 }

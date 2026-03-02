@@ -7,6 +7,8 @@ import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
+import net.serenitybdd.screenplay.waits.WaitUntil;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
 public class Login implements Task {
     private final String user;
@@ -22,9 +24,11 @@ public class Login implements Task {
     }
 
     @Override
-    @Step("{0} inicia sesión con usuario #user")
+    @Step("{0} autentica en el sistema con el usuario #user")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
+                WaitUntil.the(LoginPage.USERNAME_FIELD, isVisible()).forNoMoreThan(10).seconds(),
+
                 Enter.theValue(user).into(LoginPage.USERNAME_FIELD),
                 Enter.theValue(password).into(LoginPage.PASSWORD_FIELD),
                 Click.on(LoginPage.LOGIN_BUTTON)

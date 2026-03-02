@@ -1,6 +1,9 @@
 package com.bdg.ui.tasks;
 
 import com.bdg.ui.userinterfaces.CheckoutPage;
+import com.bdg.ui.userinterfaces.InventoryPage;
+import net.serenitybdd.screenplay.waits.WaitUntil;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.screenplay.Actor;
@@ -25,14 +28,22 @@ public class DoCheckout implements Task {
     }
 
     @Override
-    @Step("{0} completa el checkout")
+    @Step("{0} completa el proceso de compra para #firstName #lastName")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Click.on(CheckoutPage.CART_ICON),
+                // Checkout
+                Click.on(InventoryPage.SHOPPING_CART_LINK),
                 Click.on(CheckoutPage.CHECKOUT_BUTTON),
+
+                // Wait to Load
+                WaitUntil.the(CheckoutPage.FIRST_NAME, isVisible()).forNoMoreThan(5).seconds(),
+
+                // Fill With Data
                 Enter.theValue(firstName).into(CheckoutPage.FIRST_NAME),
                 Enter.theValue(lastName).into(CheckoutPage.LAST_NAME),
                 Enter.theValue(zip).into(CheckoutPage.ZIP_CODE),
+
+                // End
                 Click.on(CheckoutPage.CONTINUE_BUTTON),
                 Click.on(CheckoutPage.FINISH_BUTTON)
         );

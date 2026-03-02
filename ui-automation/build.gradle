@@ -1,4 +1,14 @@
 dependencies {
-    testImplementation "net.serenity-bdd:serenity-screenplay-webdriver:4.0.15"
-    testImplementation "net.serenity-bdd:serenity-ensure:4.0.15"
+    // Cambia testImplementation por implementation para asegurar visibilidad
+    implementation "net.serenity-bdd:serenity-core:4.0.15"
+    implementation "net.serenity-bdd:serenity-cucumber:4.0.15"
+    implementation "net.serenity-bdd:serenity-screenplay:4.0.15"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:4.0.15"
+
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:7.14.0"
+    testImplementation "org.junit.platform:junit-platform-suite:1.10.0"
+}
+
+test {
+    useJUnitPlatform()
 }

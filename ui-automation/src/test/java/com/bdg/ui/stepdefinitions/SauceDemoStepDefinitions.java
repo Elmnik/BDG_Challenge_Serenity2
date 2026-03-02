@@ -20,6 +20,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.model.environment.EnvironmentSpecificConfiguration;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
+
+import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.actors.OnStage;
@@ -28,6 +30,8 @@ import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.serenitybdd.screenplay.questions.Text;
 import net.thucydides.model.util.EnvironmentVariables;
+import net.serenitybdd.screenplay.waits.WaitUntil;
+import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 
 public class SauceDemoStepDefinitions {
 
@@ -38,9 +42,21 @@ public class SauceDemoStepDefinitions {
         OnStage.setTheStage(new OnlineCast());
     }
 
-    @Given("que el actor tiene acceso a la página {string}")
-    public void navigateTo(String url) {
-        theActorCalled("Actor").attemptsTo(Open.url(url));
+    @Given("que el actor se encuentra en la página de inicio de sesión")
+    public void queElActorSeEncuentraEnLaPaginaDeInicioDeSesion() {
+        // Instanciamos el PageObject que tiene la @DefaultUrl
+        LoginPage sauceloginPage = new LoginPage();
+
+        theActorCalled("Elmer").attemptsTo(
+                Open.browserOn(sauceloginPage)
+        );
+    }
+
+    @When("ingresa las credenciales de {string}")
+    public void ingresaLasCredencialesDe(String usuario) {
+        theActorInTheSpotlight().attemptsTo(
+                Login.withCredentials(usuario, "secret_sauce")
+        );
     }
 
     @When("ingresa las credenciales válidas")
@@ -69,8 +85,17 @@ public class SauceDemoStepDefinitions {
 
     @Then("debería ver el mensaje de error {string}")
     public void verifyErrorMessage(String expectedError) {
+        // 1. Esperamos hasta 5 segundos a que el mensaje aparezca
+        theActorInTheSpotlight().attemptsTo(
+                WaitUntil.the(LoginPage.ERROR_MESSAGE, WebElementStateMatchers.isVisible())
+                        .forNoMoreThan(5).seconds()
+        );
+
+        // 2. Ahora sí, hacemos la validación
         theActorInTheSpotlight().should(
-                seeThat("El mensaje de error", Text.of(LoginPage.ERROR_MESSAGE), containsString(expectedError))
+                seeThat("El mensaje de error",
+                        Text.of(LoginPage.ERROR_MESSAGE),
+                        containsString(expectedError))
         );
     }
 
@@ -86,11 +111,25 @@ public class SauceDemoStepDefinitions {
         );
     }
 
-    @When("completa la compra de {string} con los datos:")
-    public void completePurchase(String product, io.cucumber.datatable.DataTable data) {
+    @When("añade los siguientes productos al carrito:")
+    public void addMultipleProducts(io.cucumber.datatable.DataTable data) {
+        List<String> products = data.asList();
+        products.forEach(product ->
+                theActorInTheSpotlight().attemptsTo(AddToCart.item(product))
+        );
+    }
+
+    @And("elimina el producto {string} del carrito")
+    public void removeProduct(String product) {
+        theActorInTheSpotlight().attemptsTo(
+                Click.on(InventoryPage.REMOVE_BUTTON.of(product))
+        );
+    }
+
+    @And("finaliza el proceso de compra con los datos:")
+    public void finalStepCheckout(io.cucumber.datatable.DataTable data) {
         Map<String, String> formData = data.asMaps().get(0);
         theActorInTheSpotlight().attemptsTo(
-                AddToCart.item(product),
                 DoCheckout.withData(formData.get("firstName"), formData.get("lastName"), formData.get("zipCode"))
         );
     }
@@ -100,26 +139,5 @@ public class SauceDemoStepDefinitions {
         theActorInTheSpotlight().should(
                 seeThat("Mensaje de confirmación", Text.of(CheckoutPage.COMPLETE_HEADER), is(message))
         );
-    }
-
-    @When("añade los siguientes productos al carrito:")
-    public void addMultipleProducts(List<String> products) {
-        products.forEach(product -> 
-            theActorInTheSpotlight().attemptsTo(AddToCart.item(product))
-        );
-    }
-
-    @And("elimina el producto {string} del carrito")
-    public void removeProduct(String product) {
-        // Usamos el locator de REMOVE que definimos en InventoryPage
-        theActorInTheSpotlight().attemptsTo(
-                Click.on(InventoryPage.REMOVE_BUTTON.of(product))
-        );
-    }
-
-    @And("finaliza la compra con los datos {string}, {string}, {string}")
-    public void finalStepCheckout(String first, String last, String zip) {
-        // Reutilizamos la tarea de Checkout
-        theActorInTheSpotlight().attemptsTo(DoCheckout.withData(first, last, zip));
     }
 }
