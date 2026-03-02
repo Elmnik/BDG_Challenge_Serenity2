@@ -19,9 +19,8 @@ utilizando el patrón de diseño **Screenplay** con **Serenity BDD**.
 El repositorio se divide en dos módulos principales:
 
 ### 1. `api-automation`
-Automatización de flujos en `https://reqres.in`.
+Automatización de flujos en `https://jsonplaceholder.typicode.com/`.
 * **Interactions:** Implementación de `RestInteraction`.
-* **Models:** Mapeo de respuestas JSON a objetos Java (`UserData`).
 * **Step Definitions:** Uso de `seeThatResponse` con aserciones **JsonPath**.
 * **Features:** Escenarios para Listar, Registrar, Actualizar y Eliminar usuarios.
 
@@ -42,16 +41,17 @@ Automatización de flujos web en `https://www.saucedemo.com`.
 
 ### Ejecutar Pruebas de API & UI
 ```bash
-- JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :api-automation:clean :api-automation:test :api-automation:aggregate
-- JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :ui-automation:clean :ui-automation:test :ui-automation:aggregate -Dheadless=true
+JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew clean test aggregate
 
+###  Ejecutar por Módulo
+API:
+./gradlew :api-automation:clean :api-automation:test :api-automation:aggregate
+
+UI (Headless por defecto en CI):
+./gradlew :ui-automation:clean :ui-automation:test :ui-automation:aggregate -Dheadless=true
 ---
 
 ### Nota Tecnica
 El Proyecto ha sido diseñado y optimizado en primera instancia para equipos macOS
 con arquitectura Apple Silicon (M Series)
 
-Debido a las particularidades de gestión de memoria y el compilador de Java en estas arquitecturas,
-se han configurado versiones específicas de dependencias (como Lombok 1.18.30) y rutas de ejecución
-para garantizar la compatibilidad con el JDK 17+ y evitar conflictos de ClassLoader. Si se ejecuta
-en otras arquitecturas, asegúrese de tener correctamente configurada la variable de entorno JAVA_HOME.
