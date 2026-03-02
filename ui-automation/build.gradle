@@ -11,4 +11,7 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperties System.getProperties() // Pasa todas las propiedades de sistema (-D)
+    systemProperty "cucumber.execution.parallel.enabled", "false" // Para evitar conflictos de reporte por ahora
+    testLogging.showStandardStreams = true
 }

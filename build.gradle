@@ -24,7 +24,7 @@ subprojects {
         testImplementation "net.serenity-bdd:serenity-core:4.0.15"
         testImplementation "net.serenity-bdd:serenity-cucumber:4.0.15"
         testImplementation "net.serenity-bdd:serenity-screenplay:4.0.15"
-        
+
         // Motor JUnit 5 (Necesario para que Gradle reconozca los tests)
         testImplementation "net.serenity-bdd:serenity-junit5:4.0.15"
         testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
