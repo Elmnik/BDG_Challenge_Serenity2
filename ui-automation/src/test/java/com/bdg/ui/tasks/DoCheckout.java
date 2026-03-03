@@ -43,7 +43,6 @@ public class DoCheckout implements Task {
                 Enter.theValue(lastName).into(CheckoutPage.LAST_NAME),
                 Enter.theValue(zip).into(CheckoutPage.ZIP_CODE),
 
-                // End
                 Click.on(CheckoutPage.CONTINUE_BUTTON),
                 Click.on(CheckoutPage.FINISH_BUTTON)
         );

@@ -13,7 +13,7 @@ public class GenericRest implements Interaction {
 
     private final String method;
     private final String resource;
-    private final Object body; // Cambiado de String a Object
+    private final Object body;
 
     public GenericRest(String method, String resource, Object body) {
         this.method = method;
