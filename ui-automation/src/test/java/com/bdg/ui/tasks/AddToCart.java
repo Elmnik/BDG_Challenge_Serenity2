@@ -28,7 +28,7 @@ public class AddToCart implements Task {
                 // Producto en Pantalla
                 Scroll.to(InventoryPage.ADD_TO_CART_BUTTON.of(productName)),
 
-                // Esperate que js lo habilite
+                // Espera que js lo habilite
                 WaitUntil.the(InventoryPage.ADD_TO_CART_BUTTON.of(productName), isClickable())
                         .forNoMoreThan(5).seconds(),
 
