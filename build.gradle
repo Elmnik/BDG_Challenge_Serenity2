@@ -25,7 +25,7 @@ subprojects {
         testImplementation "net.serenity-bdd:serenity-cucumber:4.0.15"
         testImplementation "net.serenity-bdd:serenity-screenplay:4.0.15"
 
-        // Motor JUnit 5 (Necesario para que Gradle reconozca los tests)
+        // Motor JUnit 5
         testImplementation "net.serenity-bdd:serenity-junit5:4.0.15"
         testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.0"
@@ -39,10 +39,18 @@ subprojects {
     }
 
     test {
-        useJUnitPlatform() // Indica a Gradle que use JUnit 5
+        useJUnitPlatform()
+        systemProperties System.getProperties()
+
         testLogging {
             events "passed", "skipped", "failed"
             showStandardStreams = true
         }
     }
+}
+
+serenity {
+    sourceDirectory = "**/target/site/serenity"
+    outputDirectory = "target/site/serenity"
+    reports = ["html", "json"]
 }
